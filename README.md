@@ -8,6 +8,13 @@ Réalisé par :
 - Khalid Jebli
 - Taghouni Abdellah
 
+## Cloner le projet
+
+```bash
+git clone https://github.com/belguinan/bloom-filter-redis.git
+cd bloom-filter-redis
+```
+
 ## 1. Préparer l’application
 
 ```bash
