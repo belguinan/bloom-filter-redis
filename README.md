@@ -28,7 +28,7 @@ php artisan key:generate
 Configurer MySQL et Redis dans `.env`, puis créer la base si nécessaire :
 
 ```bash
-mysql -u root -p -e "CREATE DATABASE email_bloom CHARACTER SET ascii COLLATE ascii_bin;"
+mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS email_bloom CHARACTER SET ascii COLLATE ascii_bin;"
 redis-cli ping
 php artisan migrate
 ```
@@ -117,7 +117,7 @@ npm run build
 Tests avec les vrais services configurés dans `.env` :
 
 ```bash
-RUN_INTEGRATION_TESTS=1 php artisan test --env=local
+RUN_INTEGRATION_TESTS=1 php artisan test --env=local tests/Feature/EngineIntegrationTest.php
 ```
 
 ## 7. Résultats actuels
@@ -130,3 +130,39 @@ RUN_INTEGRATION_TESTS=1 php artisan test --env=local
 | Réponse positive       |         probable |            exacte |
 | Faux négatifs observés |      0 / 100 000 |                 0 |
 | Faux positifs observés |    998 / 100 000 |                 0 |
+
+## 8. Fonctions du Bloom Filter
+
+Le service `App\Services\RedisBloomFilter` fournit les fonctions utilisées pour créer et interroger le filtre :
+
+- `shape($capacity, $errorRate)` calcule le nombre de bits `m = ceil(-n × ln(p) / ln(2)²)` et le nombre de hachages `k = max(1, round((m / n) × ln(2)))` ;
+- `initialize($capacity, $errorRate, $reset)` initialise le bitmap et ses métadonnées dans Redis ;
+- `addMany($emails)` calcule les positions de chaque email et active les bits correspondants ;
+- `markReady()` indique que la construction est terminée ;
+- `contains($email)` retourne `false` dès qu’un bit vaut zéro, sinon `true` pour une présence probable ;
+- `ensureReady()` vérifie que le filtre est prêt ;
+- `metadata()` et `stats()` retournent sa configuration et son utilisation mémoire ;
+- `reset()` supprime le bitmap et ses métadonnées.
+
+Les positions utilisent SHA-256 avec un double hachage :
+
+```text
+position(i) = (h1 + i × h2) mod m
+```
+
+Exemple d’utilisation :
+
+```php
+use App\Services\RedisBloomFilter;
+
+$filter = app(RedisBloomFilter::class);
+$shape = $filter->initialize(1_000_000, 0.01, true);
+$filter->addMany([
+    'student0000001@example.test',
+    'student0000002@example.test',
+]);
+$filter->markReady();
+
+$probablyPresent = $filter->contains('student0000001@example.test');
+$stats = $filter->stats();
+```
