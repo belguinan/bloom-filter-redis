@@ -1,0 +1,257 @@
+:root {
+    color: #11213b;
+    background: #f2f5f9;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-synthesis: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+.page {
+    display: grid;
+    min-height: 100vh;
+    place-items: center;
+    padding: 32px 20px;
+}
+
+.card {
+    width: min(100%, 640px);
+    padding: 42px;
+    border: 1px solid #dce4ee;
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 24px 60px rgba(27, 47, 78, 0.1);
+}
+
+.heading {
+    margin-bottom: 30px;
+}
+
+.eyebrow {
+    color: #087f5b;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+h1 {
+    margin: 8px 0 10px;
+    color: #0c2f63;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    letter-spacing: -0.04em;
+}
+
+.heading p,
+.result p,
+.semantics p {
+    margin: 0;
+    color: #627187;
+    line-height: 1.6;
+}
+
+form {
+    display: grid;
+    gap: 20px;
+}
+
+fieldset {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+legend,
+.field > span {
+    display: block;
+    margin-bottom: 9px;
+    color: #263b59;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.engine-switch {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 5px;
+    border-radius: 12px;
+    background: #edf2f7;
+}
+
+.engine-switch label {
+    cursor: pointer;
+}
+
+.engine-switch input {
+    position: absolute;
+    opacity: 0;
+}
+
+.engine-switch span {
+    display: block;
+    padding: 11px 16px;
+    border-radius: 9px;
+    color: #53647a;
+    font-weight: 750;
+    text-align: center;
+    transition: 140ms ease;
+}
+
+.engine-switch input:checked + span {
+    color: #0c2f63;
+    background: #ffffff;
+    box-shadow: 0 3px 12px rgba(30, 54, 82, 0.11);
+}
+
+.field input {
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid #cbd6e2;
+    border-radius: 11px;
+    color: #11213b;
+    outline: none;
+}
+
+.field input:focus {
+    border-color: #087f5b;
+    box-shadow: 0 0 0 4px rgba(8, 127, 91, 0.11);
+}
+
+.samples {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: -8px;
+    color: #708095;
+    font-size: 0.82rem;
+}
+
+.samples button {
+    padding: 4px 9px;
+    border: 0;
+    border-radius: 999px;
+    color: #0c5d96;
+    background: #e8f3fb;
+    cursor: pointer;
+}
+
+.submit {
+    min-height: 49px;
+    border: 0;
+    border-radius: 11px;
+    color: #ffffff;
+    background: #0c2f63;
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.submit:hover {
+    background: #12417f;
+}
+
+.submit:disabled {
+    cursor: wait;
+    opacity: 0.72;
+}
+
+.validation {
+    margin: -10px 0 0;
+    color: #b42318;
+    font-size: 0.88rem;
+}
+
+.result {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    margin-top: 28px;
+    padding: 22px;
+    border: 1px solid;
+    border-radius: 14px;
+}
+
+.result--positive {
+    border-color: #a6d9c5;
+    background: #effaf6;
+}
+
+.result--negative {
+    border-color: #f0b9b5;
+    background: #fff4f3;
+}
+
+.result--probable {
+    border-color: #f0d08e;
+    background: #fff9e8;
+}
+
+.result-engine {
+    color: #65758b;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.result h2 {
+    margin: 6px 0;
+    color: #11213b;
+    font-size: 1.22rem;
+}
+
+.latency {
+    display: flex;
+    min-width: 122px;
+    flex-direction: column;
+    justify-content: center;
+    text-align: right;
+}
+
+.latency span {
+    color: #65758b;
+    font-size: 0.75rem;
+}
+
+.latency strong {
+    margin-top: 3px;
+    color: #0c2f63;
+    font-size: 1.15rem;
+}
+
+.semantics {
+    display: grid;
+    gap: 3px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 600px) {
+    .card {
+        padding: 28px 22px;
+    }
+
+    .result {
+        grid-template-columns: 1fr;
+    }
+
+    .latency {
+        text-align: left;
+    }
+}

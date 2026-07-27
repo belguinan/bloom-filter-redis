@@ -1,0 +1,13 @@
+*.log
+.DS_Store
+.env
+.phpunit.result.cache
+node_modules/
+public/build/
+public/hot
+results/
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+vendor/
